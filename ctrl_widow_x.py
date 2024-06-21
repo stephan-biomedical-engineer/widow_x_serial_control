@@ -69,12 +69,12 @@ class WidowX:
             self.isConnected = self.startUp()
             if self.isConnected:
                  input("Pressione Enter para continuar...")
-                 print("SETANDO MODO CILINDRICO: ", self.SET_CYLINDRICAL_MODE_CMD)
+                #  print("SETANDO MODO CILINDRICO: ", self.SET_CYLINDRICAL_MODE_CMD)
                  self.sendCmdWaitForReply(self.SET_CYLINDRICAL_MODE_CMD)
-                 time.sleep(1)
-                 print("MOVENDO PARA POSIÇÃO INICIAL: ", self.START_POSITION_CMD)
-                 self.sendCmdWaitForReply(self.START_POSITION_CMD)
-                 time.sleep(1)
+                #  time.sleep(0.5)
+                #  print("MOVENDO PARA POSIÇÃO INICIAL: ", self.START_POSITION_CMD)
+                #  self.sendCmdWaitForReply(self.START_POSITION_CMD)
+                 time.sleep(0.5)
             return self.isConnected
         except serial.SerialException as e:
             print("Erro ao conectar:", e)
@@ -82,18 +82,18 @@ class WidowX:
 
     def startUp(self):
         try:
-            for tentativa in range(11):
+            for tentativa in range(5):
                 self.comunicacaoSerial.write(self.START_UP_CMD)
-                print("Enviado comando de inicialização:", self.START_UP_CMD)
+                #print("Enviado comando de inicialização:", self.START_UP_CMD)
                 
                 time.sleep(0.5)  # Aguardar antes de ler a resposta para garantir que todos os bytes tenham sido recebidos
 
                 bytes_to_read = self.comunicacaoSerial.in_waiting
                 resposta = self.comunicacaoSerial.read(bytes_to_read)  # Leia os bytes disponíveis
-                print("Resposta recebida:", resposta)
+                #print("Resposta recebida:", resposta)
 
                 if b'Interbotix Robot Arm Online.' in resposta:
-                    print("WidowX está ativa")
+                    #print("WidowX está ativa")
                     return True
                 time.sleep(0.5)
             print("Falha na comunicação após 10 tentativas.")
@@ -109,15 +109,15 @@ class WidowX:
         try:
             self.comunicacaoSerial.flushInput() #Resent Input buffer
             self.comunicacaoSerial.flushOutput() #Resent Output buffer
-            while self.comunicacaoSerial.out_waiting > 0:
-                print("Aguardando enviar todos os bytes...")
+            # while self.comunicacaoSerial.out_waiting > 0:
+            #     print("Aguardando enviar todos os bytes...")
             self.comunicacaoSerial.write(cmd)
-            while self.comunicacaoSerial.out_waiting > 0:
-                print("Aguardando enviar todos os bytes...")
-            print("Enviando -> ", cmd)
+            # while self.comunicacaoSerial.out_waiting > 0:
+            #     print("Aguardando enviar todos os bytes...")
+            # print("Enviando -> ", cmd)
             if flagWaitForReply:
                 res = self.waitForReply()
-                self.verifyResponse(res)
+                # self.verifyResponse(res)
         except serial.SerialException as e:
             print("Erro ao enviar comando:", e)
 
@@ -182,8 +182,8 @@ class WidowX:
         return x, y, z, gripper, wrist_angle, wrist_rot
 
     def sendValue(self, x=2048, y=250, z=225, gripper=256, wrist=90, wrist_rot=512):
-        print("Enviando comando com posição")
-        print(f"x: {x} y: {y} z: {z} wrist_angle: {wrist} wrist_rot: {wrist_rot} gripper: {gripper}")
+        # print("Enviando comando com posição")
+        # print(f"x: {x} y: {y} z: {z} wrist_angle: {wrist} wrist_rot: {wrist_rot} gripper: {gripper}")
         x, y, z, gripper, wrist, wrist_rot = self.verificaLimites(x, y, z, gripper, wrist, wrist_rot)
         posicoes = [x, y, z, wrist, wrist_rot, gripper]
         package = self.preparePackage(posicoes)
@@ -200,7 +200,7 @@ class WidowX:
         package.append(self.BUTTON_BYTE)
         package.append(self.EXTENDED_BYTE)
         package.append(self.checkSum(package))
-        print(package)
+        # print(package)
         return package
 
     def checkSum(self, package):
