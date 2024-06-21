@@ -1,0 +1,14 @@
+# Excluir o diretório .venv
+.venv/
+
+# Excluir o diretório .vscode
+.vscode/
+
+# Excluir o diretório testes
+testes/
+
+# Excluir o diretório ctrl_widow_x
+ctrl_widow_x/
+
+# Excluir o diretório venv
+venv/
