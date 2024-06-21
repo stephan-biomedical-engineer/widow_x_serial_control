@@ -12,3 +12,6 @@ ctrl_widow_x/
 
 # Excluir o diretório venv
 venv/
+
+# Excluir o diretório de cachê
+__pycache__/
