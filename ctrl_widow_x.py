@@ -82,7 +82,7 @@ class WidowX:
 
     def startUp(self):
         try:
-            for tentativa in range(5):
+            for tentativa in range(10):
                 self.comunicacaoSerial.write(self.START_UP_CMD)
                 #print("Enviado comando de inicialização:", self.START_UP_CMD)
                 

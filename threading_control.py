@@ -65,6 +65,7 @@ def control_gripper(flag):
             if gripper_value <= 20:
                 print("Gripper value reached minimum")
                 flag['stop'] = True
+                wx.goHome()
                 break
     except Exception as e:
         print(f"Error controlling gripper: {e}")
@@ -76,6 +77,7 @@ def main():
     if wx.isConnected:
         try:
             ser = serial.Serial(port, 115200, timeout=2)
+            print(ser)
             time.sleep(2)
             print(f"Connected to {port}")
             
