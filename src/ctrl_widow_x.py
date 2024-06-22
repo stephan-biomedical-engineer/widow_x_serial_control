@@ -8,7 +8,7 @@ import sys
 import matplotlib.patches as patches
 from collections import deque
 from threading import Lock
-from utils.threadhandler import ThreadHandler
+
 
 class WidowX:
     def __init__(self):

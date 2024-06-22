@@ -2,7 +2,7 @@
 #Modo cilíndrico = [255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 48, 207]
 #Posição inicial = [255, 5, 10, 0, 127, 0, 202, 0, 90, 2, 0, 1, 0, 125, 0, 0, 205]
 
-from ctrl_widow_x import WidowX as widow_x
+from src.ctrl_widow_x import WidowX as widow_x
 
 GO_SLEEP_CMD = [0xff, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x60, 0x9f]
 
