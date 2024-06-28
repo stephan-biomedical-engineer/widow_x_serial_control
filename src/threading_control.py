@@ -1,4 +1,4 @@
-from src.ctrl_widow_x import WidowX
+from ctrl_widow_x import WidowX
 import serial
 import time
 import threading
@@ -73,6 +73,7 @@ def control_gripper(flag):
 def main():
     wx.connect()  # Conecta ao robô
     port = '/dev/ttyUSB1'
+    time.sleep(7)
 
     if wx.isConnected:
         try:

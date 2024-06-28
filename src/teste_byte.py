@@ -1,4 +1,4 @@
-from src.ctrl_widow_x import WidowX
+from ctrl_widow_x import WidowX
 import serial
 import time
 
