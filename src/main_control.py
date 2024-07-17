@@ -3,6 +3,7 @@
 #Posição inicial = [255, 5, 10, 0, 127, 0, 202, 0, 90, 2, 0, 1, 0, 125, 0, 0, 205]
 
 from ctrl_widow_x import WidowX as widow_x
+import serial as ser
 
 GO_SLEEP_CMD = [0xff, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x60, 0x9f]
 
@@ -12,15 +13,21 @@ def main():
     
     if wx.isConnected:
         i = 0  # Inicializa a variável de controle do loop
-        while i < 1:
-            gripper_position = gripper_value()  # Obtém o valor para o gripper
-            wx.sendValue(gripper=gripper_position)  # Envia o comando para o robô
-            if gripper_position == 0:
-                i = 1  # Encerra o loop se o usuário não desejar continuar
-                wx.comunicacaoSerial.write(GO_SLEEP_CMD)  # Envia o comando de inicialização
-            else:
-                # Opcionalmente, você pode adicionar um delay aqui para evitar envio contínuo de comandos
-                pass
+        try:
+            while i < 1:
+                gripper_position = gripper_value()  # Obtém o valor para o gripper
+                wx.sendValue(gripper=gripper_position)  # Envia o comando para o robô
+                if gripper_position == 0:
+                    i = 1  # Encerra o loop se o usuário não desejar continuar
+                    wx.comunicacaoSerial.write(GO_SLEEP_CMD)  # Envia o comando de inicialização
+                else:
+                    # Opcionalmente, você pode adicionar um delay aqui para evitar envio contínuo de comandos
+                    pass
+        except KeyboardInterrupt:
+            wx.comunicacaoSerial.write(GO_SLEEP_CMD)  # Envia o comando de inicialização
+            print("Programa encerrado pelo usuário.")
+        finally:
+            print("Fim do programa.")
 
 def gripper_value():
     # Função para obter o valor do gripper do usuário

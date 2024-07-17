@@ -3,6 +3,7 @@ import serial
 import time
 
 wx = WidowX()  # Cria uma instância da classe WidowX
+GO_SLEEP_CMD = [0xff, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x60, 0x9f]
 
 def send_flag(ser):
     try:
@@ -59,14 +60,17 @@ def read_from_serial(ser):
                 except Exception as e:
                     print(f"Error reading: {e}")
                     break
-                
+    
             time.sleep(0.05)  # Pequeno atraso para não sobrecarregar a CPU
 
         # response = input("Pressione Enter")
         # wx.goHome()
         # ser.close()
         # wx.disconnect()
-
+    except KeyboardInterrupt:
+                    wx.comunicacaoSerial.write(GO_SLEEP_CMD)  # Envia o comando de inicialização
+                    print("Programa encerrado pelo usuário.")
+                    
     except Exception as e:
         print(f"Unexpected error during read: {e}")
     finally:
