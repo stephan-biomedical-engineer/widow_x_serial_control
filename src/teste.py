@@ -16,6 +16,7 @@ def send_flag(ser):
 
 def read_from_serial(ser):
     gripper_value = 400  # Valor inicial para o gripper
+    holding = False
 
     try:
         while True:
@@ -28,9 +29,10 @@ def read_from_serial(ser):
                         continue
                     
                     try:
-                        wx.sendValue(gripper=gripper_value)
-                        gripper_value -= 20
-                        time.sleep(0.5)
+                        if holding == False:
+                            wx.sendValue(gripper=gripper_value)
+                            gripper_value -= 40
+                            time.sleep(0.5)
                     except:
                         print("Error sending gripper value")
 
@@ -38,13 +40,18 @@ def read_from_serial(ser):
                     if len(values) == 4:
                         pressure_read = process_values(values)
 
-                        if pressure_read > 5:
-                            print("All sensors activated")
-                            break
+                        if pressure_read > 10:
+                            print("Already holding")
+                            holding = True
+                            
+                        if pressure_read < 10 and holding == True:
+                            print("Releasing")
+                            holding = False
+                            gripper_value = 400
 
-                    if gripper_value == 40:
-                        print("Gripper value reached 20")
-                        break
+                    if gripper_value == 0:
+                        print("Gripper value reached 0")
+                        holding = True
 
                     else:
                         print(f"Unexpected data format: {text}")
